@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product List</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+</head>
+<body>
+    <a href="{% url 'product_create' %}">
+        <button>New Product</button>
+    </a>
+
+    <table id="product_table" class="display">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function() {
+            var table = $('#product_table').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "lengthMenu": [[1, 5, 10, -1], [1, 5, 10, "All"]],
+                "ajax": "{% url 'product_data' %}",
+                "columns": [
+                    { "data": "id" },
+                    { "data": "title" },
+                    { "data": "category" },
+                    { "data": "price" },
+                    {
+                        "data": null,
+                        "render": function(data, type, full, meta) {
+                            var productDetailUrl = "{% url 'product_detail' 0 %}".replace('0', data.id);
+                            return '<a href="' + productDetailUrl + '">Details</a>';
+                        }
+                    }
+                ],
+            });
+        });             
+    </script>            
+</body>
+</html>

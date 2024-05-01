@@ -1,0 +1,5 @@
+Django
+django-datatables-too
+django-datatables-view
+pillow
+python-dotenv
